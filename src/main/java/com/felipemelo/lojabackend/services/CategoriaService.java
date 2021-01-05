@@ -3,10 +3,12 @@ package com.felipemelo.lojabackend.services;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.felipemelo.lojabackend.domain.Categoria;
 import com.felipemelo.lojabackend.repositories.CategoriaRepository;
+import com.felipemelo.lojabackend.services.exceptions.DataIntegrityException;
 import com.felipemelo.lojabackend.services.exceptions.ObjectNotFoundException;
 
 @Service
@@ -29,6 +31,15 @@ public class CategoriaService {
 	public Categoria update(Categoria obj) {
 		find(obj.getId());
 		return repo.save(obj);
+	}
+	
+	public void delete(Integer id) {
+		find(id);
+		try {
+			repo.deleteById(id);
+		}catch(DataIntegrityViolationException e) {
+			throw new DataIntegrityException("Uma categoria não pode ser excluída quando possui produtos");
+		}
 	}
 
 }
