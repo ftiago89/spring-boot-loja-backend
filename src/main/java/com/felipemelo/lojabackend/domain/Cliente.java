@@ -91,7 +91,8 @@ public class Cliente implements Serializable{
 	public TipoCliente getTipo() {
 		return TipoCliente.toEnum(tipo);
 	}
-
+	
+	@JsonIgnore
 	public void setTipo(TipoCliente tipo) {
 		this.tipo = tipo.getCod();
 	}
