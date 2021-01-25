@@ -9,6 +9,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
 import com.felipemelo.lojabackend.services.DBService;
+import com.felipemelo.lojabackend.services.EmailService;
+import com.felipemelo.lojabackend.services.SmtpEmailService;
 
 @Configuration
 @Profile("dev")
@@ -28,6 +30,11 @@ public class ProfileDevConfig {
 		
 		dbService.instantiateTestDatabase();
 		return true;
+	}
+	
+	@Bean
+	public EmailService emailService() {
+		return new SmtpEmailService();
 	}
 
 }
